@@ -6,7 +6,7 @@ if [ -n "${HELM_S3_PLUGIN_NO_INSTALL_HOOK}" ]; then
 fi
 
 version="$(cat plugin.yaml | grep "version" | cut -d '"' -f 2)"
-echo "Downloading and installing helm-s3 v${version} ..."
+echo "Downloading and installing knowis helm-s3 v${version} ..."
 
 url=""
 if [ "$(uname)" == "Darwin" ]; then
