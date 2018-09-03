@@ -6,8 +6,6 @@ import (
 	"log"
 	"os"
 	"time"
-
-	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 var (
@@ -87,6 +85,9 @@ func main() {
 		Bool()
 	pushIgnoreIfExists := pushCmd.Flag("ignore-if-exists", "If the chart already exists, exit normally and do not trigger an error.").
 		Bool()
+	repoBaseURL := pushCmd.Flag("base-url", "the base url of the chart packages that are published").
+		Default("").
+		String()
 
 	reindexCmd := cli.Command(actionReindex, "Reindex the repository.")
 	reindexTargetRepository := reindexCmd.Arg("repo", "Target repository to reindex").
@@ -131,12 +132,14 @@ func main() {
 			dryRun:         *pushDryRun,
 			ignoreIfExists: *pushIgnoreIfExists,
 			acl:            *acl,
+			repoBaseURL:    *repoBaseURL,
 		}
 
 	case actionReindex:
 		act = reindexAction{
-			repoName: *reindexTargetRepository,
-			acl:      *acl,
+			repoName:    *reindexTargetRepository,
+			acl:         *acl,
+			repoBaseURL: *repoBaseURL,
 		}
 		defer fmt.Printf("Repository %s was successfully reindexed.\n", *reindexTargetRepository)
 
